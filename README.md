@@ -2,16 +2,11 @@
 
 This repository contains Kubernetes manifests and dashboards for integrating [Trivy Operator](https://github.com/aquasecurity/trivy-operator) into a home lab environment for security auditing and vulnerability visualization.
 
-> ⚠️ **Disclaimer**  
-> I am not the original creator of all included resources. This repo contains modified and customized versions of public resources for my own home lab. Credit belongs to the original authors and maintainers.
 
 ---
 
 ## 📦 Contents
 
-### Dashboards
-
-- `tryvy-dashboard_1.json`: Grafana dashboard visualizing Trivy vulnerability and configuration scan metrics (severity, namespace, cluster).
 
 ### Kubernetes Manifests
 
@@ -46,16 +41,6 @@ kubectl apply -f trivy-operator-servicemonitor.yaml
 ```bash
 kubectl apply -f trivy-node-collector.yaml
 ```
-
----
-
-## 📊 Dashboard Import
-
-1. Open Grafana → Dashboards → Import.
-2. Upload `tryvy-dashboard_1.json`.
-3. Select your Prometheus data source and finish.
-
----
 
 ## 🔒 Security Note
 
