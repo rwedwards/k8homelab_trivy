@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trivy-node-collector
+  namespace: trivy-system
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trivy-node-collector
+  template:
+    metadata:
+      labels:
+        app: trivy-node-collector
+    spec:
+      restartPolicy: Always
+      serviceAccountName: default
+      hostPID: true
+      nodeSelector:
+        node-role.kubernetes.io/worker: worker
+      containers:
+        - name: trivy
+          image: aquasec/trivy:latest
+          securityContext:
+            privileged: true
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "[*] Starting scan..."
+              trivy fs --severity CRITICAL,HIGH --skip-dirs /proc,/sys,/dev /
+              echo "[*] Done."
+              sleep 3600
+          volumeMounts:
+            - name: rootfs
+              mountPath: /host
+              readOnly: true
+      volumes:
+        - name: rootfs
+          hostPath:
+            path: /
+            type: Directory
